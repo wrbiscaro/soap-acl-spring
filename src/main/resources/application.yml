@@ -1,0 +1,16 @@
+dataaccess:
+  soap:
+    url: https://www.dataaccess.com/webservicesserver/NumberConversion.wso
+    wsdl: https://www.dataaccess.com/webservicesserver/NumberConversion.wso?WSDL
+
+# mostra todos os logs de pedido/resposta http
+logging.level.com.example.testeopenfeign: DEBUG
+
+# configuracao de timeout
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: FULL
