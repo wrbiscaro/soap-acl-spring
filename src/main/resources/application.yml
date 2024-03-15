@@ -1,3 +1,4 @@
+# configs para consumo do webservice soap
 dataaccess:
   soap:
     url: https://www.dataaccess.com/webservicesserver/NumberConversion.wso
@@ -14,3 +15,20 @@ feign:
         connectTimeout: 10000
         readTimeout: 10000
         loggerLevel: FULL
+
+# configs do spring security para uso com o keycloak
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: soap-acl-client
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8081/realms/soap-acl-realm
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt.issuer-uri: http://localhost:8081/realms/soap-acl-realm
