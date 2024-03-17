@@ -126,7 +126,7 @@
 				<configuration>
 					<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
 					<generatePackage>com.wallacebiscaro.soapaclspring.client.gen</generatePackage>
-					<schemaDirectory>${project.basedir}/src/main/resources</schemaDirectory>
+					<schemaDirectory>${project.basedir}/src/main/resources/wsdl</schemaDirectory>
 					<schemaIncludes>
 						<include>NumberConversion.wsdl</include>
 					</schemaIncludes>
