@@ -7,6 +7,8 @@
 - Feign
 - Spring Security
 - Keycloak (authorization server)
+- Terraform
+- AWS (ALB + ECS)
 
 ## Como rodar o projeto
 1. Subir o keycloak auth server com o comando **'docker-compose up'**. O servidor poderá ser acessado através da URL 
@@ -76,6 +78,16 @@ curl --request GET \
   "email": "a@a.com"
 }
 ```
+
+## Como fazer o deploy na AWS
+1. Criar um repo no ECR para armazenar a imagem da nossa app, com o nome "soap-acl-spring-prod". A pasta de infra contém um modulo pra criar o repo, mas a criacao do repo e o deploy da imagem (passo 2) devem ocorrer antes da subida do container, senao ele nao ira encontrar a imagem.
+2. Dentro da pasta app, executar os comandos abaixo para fazer login no ECR, buildar e imagem e fazer o deploy dela no ECR. As opcoes "buildx" e "--platform" do segundo comando sao necessarios para fazer um **multiplataform build** para execucao da app dentro de uma maquina Linux, caso esse comando seja executado a partir de uma maquina MacOS.
+```terminal
+aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 638260411513.dkr.ecr.sa-east-1.amazonaws.com
+
+docker buildx build --platform linux/amd64,linux/arm64 -t 638260411513.dkr.ecr.sa-east-1.amazonaws.com/soap-acl-spring-prod:latest --push .
+```
+3. Dentro da pasta infra/env/prod, executar os comandos terraform init, plan e apply para fazer o deploy da infra. A infra contém um ALB com target para um ECS Fargate e todas as dependencias necessarias para funcionamento (VPC, SG, IAM, etc).
 
 ### Referencias
 - SOAP com Feign: https://dev.to/rodrigovp/feign-com-soap-uma-poc-2daf
