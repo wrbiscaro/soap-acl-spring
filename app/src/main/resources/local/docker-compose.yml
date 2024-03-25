@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    restart: always
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=password
+    ports:
+      - 8081:8080
+    command:
+      - start-dev
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: otel-collector
+    volumes:
+      - ./collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    ports:
+      - 4317:4317
+      - 4318:4318
+      # - 55679:55679 # porta do zpages para troubleshooting

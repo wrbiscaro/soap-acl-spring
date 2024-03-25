@@ -14,5 +14,4 @@ public class SoapAclSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SoapAclSpringApplication.class, args);
 	}
-
 }
